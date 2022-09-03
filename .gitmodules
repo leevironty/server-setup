@@ -1,0 +1,3 @@
+[submodule "scrabbler"]
+	path = scrabbler
+	url = https://github.com/leevironty/scrabbler.git
