@@ -1,0 +1,35 @@
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name ${SERVER_HOST} www.${SERVER_HOST};
+    server_tokens off;
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+}
+
+
+# reject requests if host does not match anything
+
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _;
+    return 444;
+}
+
+server {
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
+    ssl_reject_handshake on;
+}
